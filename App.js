@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import WelcomeScreen from "./Screens/WelcomeScreen";
+import MenuScreen from "./Screens/MenuScreen";
+
+const Stack = createNativeStackNavigator();
+
+function LogoTitle() {
+  return <Image source={require('./img/logo.png')}
+    style={
+      {
+        height: 50,
+        width: 320,
+        resizeMode: 'contain',
+        alignSelf:'center'
+      }
+    } />;
+}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Welcome"
+        screenOptions={{
+          headerStyle: { backgroundColor: '#333333' },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{ title: 'Home',headerTitle: (props) => <LogoTitle {...props} /> }}
+        />
+        <Stack.Screen name="Menu" component={MenuScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

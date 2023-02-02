@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 
 import WelcomeScreen from "./Screens/WelcomeScreen";
 import MenuScreen from "./Screens/MenuScreen";
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function LogoTitle() {
   return <Image source={require('./img/logo.png')}
@@ -23,22 +24,26 @@ function LogoTitle() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Welcome"
-        screenOptions={{
-          headerStyle: { backgroundColor: '#333333' },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}>
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ title: 'Home',headerTitle: (props) => <LogoTitle {...props} /> }}
-        />
-        <Stack.Screen name="Menu" component={MenuScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Welcome') {
+            iconName = focused
+              ? 'ios-information-circle'
+              : 'ios-information-circle-outline';
+          } else if (route.name === 'Menu') {
+            iconName =  'ios-list';
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+     <Tab.Screen name="Welcome" component={WelcomeScreen} />
+      <Tab.Screen name="Menu" component={MenuScreen} />
+    </Tab.Navigator>
     </NavigationContainer>
   );
 }

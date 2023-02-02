@@ -79,9 +79,9 @@ const MenuScreen = ({navigation}) => {
         ListFooterComponent={Footer}
         />
      
-      <Pressable onPress = {() => navigation.goBack()}>
+      {/* <Pressable onPress = {() => navigation.goBack()}>
         <Text style ={menuStyles.buttonText}>Go back</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };
